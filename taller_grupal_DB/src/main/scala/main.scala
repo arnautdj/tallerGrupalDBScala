@@ -1,5 +1,2 @@
-/*
-ESTE ARCHIVO VA A COLAPSAR EN 20 SEGUNDOS
-*/
 object main {
 }
