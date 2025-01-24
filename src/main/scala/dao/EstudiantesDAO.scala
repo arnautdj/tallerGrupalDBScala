@@ -6,14 +6,16 @@ import cats.implicits._
 import model.Estudiante
 import coneccionDB.datbase
 
+
+
 object EstudiantesDAO {
   def insert(estudiante: Estudiante ): ConnectionIO[Int] = {
     sql"""
-     INSERT INTO temperaturas (dia, temperatura_manana, temperatura_tarde)
+     INSERT INTO estudiantes (nombre, edad, calificacion, genero)
      VALUES (
        ${estudiante.nombre},
        ${estudiante.edad},
-       ${estudiante.calificacion}
+       ${estudiante.calificacion},
        ${estudiante.genero}
      )
    """.update.run
@@ -24,4 +26,10 @@ object EstudiantesDAO {
       estudiante.traverse(t => insert(t).transact(xa))
     }
   }
+
+  def listAllEstudiante(): ConnectionIO[List[Estudiante]] =
+    sql"SELECT nombre, edad, calificacion, genero FROM estudiantes"
+      .query[Estudiante]
+      .to[List]
+
 }

@@ -4,5 +4,5 @@ CREATE TABLE estudiantes (
     nombre VARCHAR(50),
     edad INT,
     calificacion INT,
-    genero CHAR(1)
+    genero VARCHAR(5)
 );

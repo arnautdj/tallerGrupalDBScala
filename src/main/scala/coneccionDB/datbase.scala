@@ -7,7 +7,7 @@ import doobie.hikari.HikariTransactor
 import scala.concurrent.ExecutionContext
 
 object datbase {
-  private val connectEC: ExecutionContext = ExecutionContext.global
+  val connectEC: ExecutionContext = ExecutionContext.global
 
   def transactor: Resource[IO, HikariTransactor[IO]] = {
     val config = ConfigFactory.load().getConfig("db")

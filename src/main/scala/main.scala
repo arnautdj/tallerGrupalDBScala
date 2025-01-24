@@ -2,11 +2,21 @@ import cats.effect.{IO, IOApp}
 import kantan.csv._
 import kantan.csv.ops._
 import kantan.csv.generic._
-import model.Estudiante
+
+import cats.effect.unsafe.implicits.global
+
 import java.io.File
+import dao.EstudiantesDAO
+import doobie.ConnectionIO
+import model.Estudiante
+
 
 // Extiende de IOApp.Simple para manejar efectos IO y recursos de forma segura
 object Main extends IOApp.Simple {
+
+  val transactor = coneccionDB.datbase.transactor.allocated.unsafeRunSync()
+
+
   val path2DataFile2 = "src/main/resources/data/estudiantes.csv"
 
   val dataSource = new File(path2DataFile2)
@@ -23,7 +33,13 @@ object Main extends IOApp.Simple {
    *
    * @return IO[Unit] que representa la secuencia de operaciones
    */
+
   def run: IO[Unit] =
-    EstudianteDAO.insertAll(estudiante)
+    EstudiantesDAO.insertAll(estudiante)
       .flatMap(result => IO.println(s"Registros insertados: ${result.size}"))
+
+
+  print(dao.EstudiantesDAO.listAllEstudiante())
+
+
 }
